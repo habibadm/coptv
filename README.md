@@ -51,6 +51,10 @@ Los logos están en `brand/` (horizontal y símbolo, en color y en blanco), saca
 Colores: azul `#4A76CB`, amarillo `#ECB536`, rojo `#D35237`, verde `#529E56`, gris `#E2E2E1`, negro y el rojo del logo `#E43034`.
 Tipografías: Barlow (textos) y Barlow Condensed (títulos). El amarillo marca lo que está seleccionado con el control remoto.
 
+## Servidor
+
+Se instala con Docker en el servidor de COPTV (hoy el Asustor): panel, API, app de TV en el navegador y HTTPS. Pasos en `deploy/README.md`.
+
 ## Empaquetar para televisores
 
 - **Samsung Tizen:** `npm run build -w @coptv/tv-web`, copiar `apps/tv-web/dist/` junto a `apps/tv-web/platform/tizen/config.xml` y firmar con Tizen Studio.

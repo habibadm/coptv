@@ -49,10 +49,29 @@ async function cargarEjemplos(strapi: Core.Strapi) {
   strapi.log.info('Contenido de ejemplo cargado');
 }
 
+// El catálogo es público: la API lo lee sin token. Escribir sigue requiriendo entrar al panel.
+const LECTURA_PUBLICA = [
+  'api::contenido.contenido.find',
+  'api::contenido.contenido.findOne',
+  'api::portada.portada.find',
+];
+
+async function permitirLecturaPublica(strapi: Core.Strapi) {
+  const rol = await strapi.db.query('plugin::users-permissions.role').findOne({ where: { type: 'public' } });
+  if (!rol) return;
+  const permisos = strapi.db.query('plugin::users-permissions.permission');
+  for (const action of LECTURA_PUBLICA) {
+    if (!(await permisos.findOne({ where: { action, role: rol.id } }))) {
+      await permisos.create({ data: { action, role: rol.id } });
+    }
+  }
+}
+
 export default {
   register() {},
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await permitirLecturaPublica(strapi);
     if (process.env.CMS_SEED_EXAMPLE === 'true') await cargarEjemplos(strapi);
   },
 };

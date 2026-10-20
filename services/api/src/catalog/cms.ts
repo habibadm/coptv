@@ -5,8 +5,10 @@ import type { Catalog, CatalogItem, CatalogSource } from './types';
 
 export interface CmsOptions {
   url: string;
-  /** API token de solo lectura creado en Strapi (Configuración > API Tokens). */
+  /** API token de solo lectura creado en Strapi (Configuración > API Tokens). Vacío = acceso público. */
   token: string;
+  /** Dirección pública desde donde se ven las imágenes; por defecto, la del CMS. */
+  mediaUrl?: string;
   cacheTtlMs: number;
   /** Para armar la miniatura de Bunny cuando el contenido no tiene imagen propia. */
   bunnyStreamHost?: string;
@@ -51,7 +53,7 @@ export function createCmsSource(options: CmsOptions): CatalogSource {
 
   async function get<T>(path: string): Promise<T> {
     const res = await doFetch(`${options.url}/api/${path}`, {
-      headers: { authorization: `Bearer ${options.token}` },
+      headers: options.token ? { authorization: `Bearer ${options.token}` } : {},
     });
     if (!res.ok) throw new Error(`CMS ${path}: ${res.status}`);
     return (await res.json()) as T;
@@ -95,7 +97,7 @@ export function createCmsSource(options: CmsOptions): CatalogSource {
 }
 
 function toItem(c: CmsContenido, options: CmsOptions): CatalogItem {
-  const media = (m?: CmsMedia | null) => (m ? new URL(m.url, options.url).toString() : undefined);
+  const media = (m?: CmsMedia | null) => (m ? new URL(m.url, options.mediaUrl || options.url).toString() : undefined);
   const bunnyThumb =
     c.bunnyVideoId && options.bunnyStreamHost ? `https://${options.bunnyStreamHost}/${c.bunnyVideoId}/thumbnail.jpg` : undefined;
 

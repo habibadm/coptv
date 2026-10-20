@@ -1,4 +1,5 @@
 import cors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
 import Fastify from 'fastify';
 import { checkAccess, type Content, type HomeScreen, type Playback, type User } from '@coptv/shared';
 import { deliver, streamUrl } from './bunny';
@@ -26,6 +27,20 @@ export function buildApp(config: Config, source: CatalogSource = defaultSource(c
   }
 
   app.get('/health', async () => ({ ok: true }));
+
+  // Imágenes subidas al CMS, pedidas al CMS por la red interna.
+  if (config.cms.url) {
+    app.get('/uploads/*', async (req, reply) => {
+      const res = await fetch(`${config.cms.url}/uploads/${(req.params as { '*': string })['*']}`);
+      if (!res.ok || !res.body) return reply.code(res.status === 404 ? 404 : 502).send();
+      reply.header('content-type', res.headers.get('content-type') ?? 'application/octet-stream');
+      reply.header('cache-control', 'public, max-age=86400');
+      return reply.send(Buffer.from(await res.arrayBuffer()));
+    });
+  }
+
+  // La app de TV para el navegador, en la misma dirección que la API.
+  if (config.webDir) app.register(fastifyStatic, { root: config.webDir });
 
   app.get('/v1/home', async (): Promise<HomeScreen> => {
     const { items, home } = await source();
