@@ -1,0 +1,71 @@
+# Instalación de COPTV en un servidor propio. Ver deploy/README.md.
+# Las imágenes las arma GitHub (.github/workflows/imagenes.yml); el servidor solo las descarga.
+name: coptv
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: strapi
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?falta DB_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U strapi"]
+      interval: 5s
+      retries: 20
+
+  panel:
+    image: ghcr.io/habibadm/coptv-panel:${VERSION:-latest}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: db
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: ${DB_PASSWORD}
+      APP_KEYS: ${APP_KEYS:?falta APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:?falta API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:?falta ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:?falta TRANSFER_TOKEN_SALT}
+      JWT_SECRET: ${JWT_SECRET:?falta JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?falta ENCRYPTION_KEY}
+    volumes:
+      - uploads:/app/public/uploads
+
+  api:
+    image: ghcr.io/habibadm/coptv-api:${VERSION:-latest}
+    restart: unless-stopped
+    depends_on: [panel]
+    environment:
+      CMS_URL: http://panel:1337
+      PUBLIC_URL: https://${APP_DOMAIN:?falta APP_DOMAIN}
+      BUNNY_STREAM_HOST: ${BUNNY_STREAM_HOST:-}
+      BUNNY_TOKEN_KEY: ${BUNNY_TOKEN_KEY:-}
+      LIVE_STREAM_URL: ${LIVE_STREAM_URL:-}
+      ADS_ENABLED: "false"
+
+  # Recibe el tráfico de internet y saca los certificados HTTPS solo (Let's Encrypt).
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [api, panel]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+      PANEL_DOMAIN: ${PANEL_DOMAIN:?falta PANEL_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy:/data
+
+volumes:
+  db:
+  uploads:
+  caddy:

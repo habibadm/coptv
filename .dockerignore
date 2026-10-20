@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/.env
+**/.expo
+.git
+services/cms
+# De estas solo hace falta el package.json (para que npm reconozca el workspace).
+apps/mobile/*
+!apps/mobile/package.json
+services/nas-uploader/*
+!services/nas-uploader/package.json
