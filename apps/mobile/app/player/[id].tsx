@@ -2,9 +2,10 @@ import type { Playback } from '@coptv/shared';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { api } from '../../src/api';
 import { colors } from '../../src/theme';
+import { useTVBack } from '../../src/useTVBack';
 
 const MESSAGES: Record<string, string> = {
   login_required: 'Inicia sesión para ver este contenido.',
@@ -13,6 +14,7 @@ const MESSAGES: Record<string, string> = {
 
 export default function Player() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  useTVBack();
   const [playback, setPlayback] = useState<Playback>();
   const [error, setError] = useState<string>();
 
@@ -40,9 +42,12 @@ export default function Player() {
         <VideoView player={player} style={StyleSheet.absoluteFill} nativeControls allowsPictureInPicture />
       )}
       {playback?.isLive && <Text style={styles.live}>EN VIVO</Text>}
-      <Pressable style={styles.close} onPress={() => router.back()} hitSlop={16}>
-        <Text style={styles.closeText}>✕</Text>
-      </Pressable>
+      {/* En la TV se sale con el botón Atrás/Menú del control. */}
+      {!Platform.isTV && (
+        <Pressable style={styles.close} onPress={() => router.back()} hitSlop={16}>
+          <Text style={styles.closeText}>✕</Text>
+        </Pressable>
+      )}
     </View>
   );
 }

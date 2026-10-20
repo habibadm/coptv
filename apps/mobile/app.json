@@ -10,14 +10,25 @@
     "ios": {
       "bundleIdentifier": "com.coptv.app",
       "supportsTablet": true,
-      "infoPlist": { "UIBackgroundModes": ["audio"] }
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "package": "com.coptv.app"
     },
     "plugins": [
+      "@react-native-tvos/config-tv",
       "expo-router",
-      ["expo-video", { "supportsBackgroundPlayback": true, "supportsPictureInPicture": true }]
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ]
     ],
     "extra": {
       "apiUrl": "http://localhost:4000"

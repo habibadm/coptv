@@ -7,7 +7,9 @@
     "start": "expo start",
     "ios": "expo run:ios",
     "android": "expo run:android",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "ios:tv": "EXPO_TV=1 expo prebuild --clean && expo run:ios",
+    "android:tv": "EXPO_TV=1 expo prebuild --clean && expo run:android"
   },
   "dependencies": {
     "@coptv/shared": "*",
@@ -17,14 +19,23 @@
     "expo-linking": "~58.0.13",
     "expo-router": "~58.0.24",
     "expo-status-bar": "~58.0.3",
+    "expo-system-ui": "~58.0.6",
     "expo-video": "~58.0.12",
     "react": "19.3.0",
-    "react-native": "0.88.0",
+    "react-native": "npm:react-native-tvos@0.88.0-0",
     "react-native-safe-area-context": "~5.10.1",
     "react-native-screens": "~4.30.0"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@react-native-tvos/config-tv": "^0.1.7"
+  },
+  "expo": {
+    "install": {
+      "exclude": [
+        "react-native"
+      ]
+    }
   }
 }

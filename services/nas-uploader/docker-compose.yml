@@ -5,7 +5,7 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      BUNNY_LIBRARY_ID: ""        # Bunny > Stream > librería > API > Video Library ID
+      BUNNY_LIBRARY_ID: "785439"  # librería "coptv" de Bunny Stream
       BUNNY_STREAM_API_KEY: ""    # Bunny > Stream > librería > API > API Key
       # Opcional: crear un borrador en el CMS por cada video subido.
       CMS_URL: ""

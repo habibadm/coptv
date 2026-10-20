@@ -1,12 +1,15 @@
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { api } from '../../src/api';
 import { colors } from '../../src/theme';
+import { FocusCard } from '../../src/FocusCard';
 import { useAsync } from '../../src/useAsync';
+import { useTVBack } from '../../src/useTVBack';
 
 export default function Detail() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  useTVBack();
   const { data } = useAsync(async () => {
     const content = await api.content(id);
     const episodes = content.kind === 'series' ? await api.episodes(id) : [];
@@ -27,15 +30,15 @@ export default function Detail() {
         <Text style={styles.title}>{content.title}</Text>
         <Text style={styles.meta}>{meta}</Text>
         {playId && (
-          <Pressable style={styles.play} onPress={() => router.push(`/player/${playId}`)}>
+          <FocusCard style={styles.play} onPress={() => router.push(`/player/${playId}`)} hasTVPreferredFocus>
             <Text style={styles.playText}>▶  Ver ahora</Text>
-          </Pressable>
+          </FocusCard>
         )}
         <Text style={styles.desc}>{content.description}</Text>
 
         {episodes.length > 0 && <Text style={styles.section}>Episodios</Text>}
         {episodes.map((ep) => (
-          <Pressable key={ep.id} style={styles.episode} onPress={() => router.push(`/player/${ep.id}`)}>
+          <FocusCard key={ep.id} style={styles.episode} onPress={() => router.push(`/player/${ep.id}`)}>
             <Image source={ep.artwork.landscape} style={styles.episodeImage} contentFit="cover" />
             <View style={{ flex: 1 }}>
               <Text style={styles.episodeTitle}>
@@ -45,7 +48,7 @@ export default function Detail() {
                 {ep.description}
               </Text>
             </View>
-          </Pressable>
+          </FocusCard>
         ))}
       </View>
     </ScrollView>
