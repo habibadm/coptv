@@ -1,8 +1,9 @@
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
 import { checkAccess, type Content, type HomeScreen, type Playback, type User } from '@coptv/shared';
+import { deliver, streamUrl } from './bunny';
 import { TEST_STREAM, type Config } from './config';
-import { buildEpg, catalog, homeLayout } from './data/catalog';
+import { buildEpg, catalog, homeLayout, videoSources } from './data/catalog';
 
 const byId = new Map(catalog.map((c) => [c.id, c]));
 
@@ -11,7 +12,7 @@ function resolveUser(): User | null {
   return null;
 }
 
-export function buildApp(config: Config) {
+export function buildApp(config: Config, sources: Record<string, string> = videoSources) {
   const app = Fastify({ logger: false });
   app.register(cors, { origin: true });
 
@@ -52,10 +53,15 @@ export function buildApp(config: Config) {
     if (denied) return reply.code(403).send({ error: denied.reason });
 
     const isLive = content.kind === 'live';
+    const bunnyVideoId = sources[content.id];
+    const source = isLive
+      ? config.liveStreamUrl
+      : bunnyVideoId && config.bunny.streamHost
+        ? streamUrl(config.bunny, bunnyVideoId, 'playlist.m3u8')
+        : TEST_STREAM;
     const playback: Playback = {
       contentId: content.id,
-      // Hasta integrar Mux, el VOD usa la señal de prueba.
-      url: isLive ? config.liveStreamUrl : TEST_STREAM,
+      url: deliver(config.bunny, source),
       isLive,
       adBreaks: config.adsEnabled && config.adTagUrl && !isLive ? [{ offsetSec: 0, vastUrl: config.adTagUrl }] : [],
     };

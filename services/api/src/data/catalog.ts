@@ -87,6 +87,12 @@ export const catalog: Content[] = [
   },
 ];
 
+/**
+ * Video de Bunny Stream (GUID) de cada contenido bajo demanda. Lo que no está aquí usa la señal de prueba.
+ * Se reemplaza por un campo del CMS.
+ */
+export const videoSources: Record<string, string> = {};
+
 export const homeLayout = [
   { id: 'destacado', title: 'Destacado', style: 'hero' as const, ids: ['coptv-en-vivo', 'documental-raices'] },
   { id: 'en-vivo', title: 'En vivo', style: 'live' as const, ids: ['coptv-en-vivo'] },
