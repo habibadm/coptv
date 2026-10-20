@@ -1,0 +1,17 @@
+# Para Asustor (Portainer), QNAP (Container Station) o TrueNAS SCALE (Custom App).
+# Cambiar las rutas de la izquierda por las carpetas reales del NAS.
+services:
+  coptv-subidor:
+    build: .
+    restart: unless-stopped
+    environment:
+      BUNNY_LIBRARY_ID: ""        # Bunny > Stream > librería > API > Video Library ID
+      BUNNY_STREAM_API_KEY: ""    # Bunny > Stream > librería > API > API Key
+      # Opcional: crear un borrador en el CMS por cada video subido.
+      CMS_URL: ""
+      CMS_WRITE_TOKEN: ""
+      SCAN_INTERVAL_SEC: "60"
+      STABLE_SEC: "120"
+    volumes:
+      - /volume1/COPTV/Publicar:/videos:ro   # carpeta que se vigila (solo lectura)
+      - /volume1/docker/coptv-subidor:/data  # estado de lo ya subido

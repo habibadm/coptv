@@ -4,6 +4,7 @@
   "workspaces": [
     "packages/*",
     "services/api",
+    "services/nas-uploader",
     "apps/*"
   ],
   "scripts": {

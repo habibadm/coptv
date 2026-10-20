@@ -11,6 +11,7 @@ El plan técnico completo está en el proyecto (`plan/plan-tecnico-app-coptv.md`
 | `apps/tv-web` | App web para control remoto (React + Vite) | Samsung Tizen, LG webOS, Xbox, PlayStation, navegador |
 | `services/api` | API de COPTV (Fastify): lee el CMS o un catálogo de ejemplo | Servidor |
 | `services/cms` | Panel de contenido (Strapi 5) | Servidor |
+| `services/nas-uploader` | Sube los videos del NAS a Bunny Stream (Docker) | NAS |
 | `packages/shared` | Tipos, cliente de la API y reglas de acceso comunes | Todas |
 
 ## Cómo correrlo
@@ -50,5 +51,5 @@ Configuración en `services/api/.env.example`.
 ## Próximos pasos
 
 1. Crear la librería de Bunny Stream y conectar la señal real de COPTV con `LIVE_STREAM_URL`.
-2. Subir automáticamente los videos del NAS a Bunny Stream.
+2. Instalar el subidor en el NAS (`services/nas-uploader/README.md`).
 3. Diseño final de marca y pantallas.
