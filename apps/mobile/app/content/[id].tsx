@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { api } from '../../src/api';
-import { colors } from '../../src/theme';
+import { colors, fonts } from '../../src/theme';
 import { FocusCard } from '../../src/FocusCard';
 import { useAsync } from '../../src/useAsync';
 import { useTVBack } from '../../src/useTVBack';
@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   backdrop: { width: '100%', aspectRatio: 16 / 9 },
   body: { padding: 16 },
-  title: { color: colors.text, fontSize: 28, fontWeight: '700' },
-  meta: { color: colors.muted, marginTop: 6 },
-  play: { backgroundColor: colors.text, borderRadius: 8, paddingVertical: 14, alignItems: 'center', marginTop: 16 },
-  playText: { color: colors.bg, fontWeight: '700', fontSize: 16 },
-  desc: { color: colors.muted, fontSize: 15, marginTop: 16, lineHeight: 22 },
-  section: { color: colors.text, fontSize: 18, fontWeight: '600', marginTop: 28, marginBottom: 8 },
+  title: { color: colors.text, fontSize: 32, fontFamily: fonts.title, textTransform: 'uppercase' },
+  meta: { color: colors.muted, marginTop: 6, fontFamily: fonts.body },
+  play: { backgroundColor: colors.yellow, borderRadius: 8, paddingVertical: 14, alignItems: 'center', marginTop: 16 },
+  playText: { color: colors.bg, fontFamily: fonts.title, fontSize: 18, textTransform: 'uppercase' },
+  desc: { color: colors.muted, fontFamily: fonts.body, fontSize: 15, marginTop: 16, lineHeight: 22 },
+  section: { color: colors.text, fontSize: 20, fontFamily: fonts.subtitle, textTransform: 'uppercase', marginTop: 28, marginBottom: 8 },
   episode: { flexDirection: 'row', gap: 12, marginVertical: 8 },
   episodeImage: { width: 140, aspectRatio: 16 / 9, borderRadius: 6 },
-  episodeTitle: { color: colors.text, fontWeight: '600' },
-  episodeDesc: { color: colors.muted, fontSize: 13, marginTop: 4 },
+  episodeTitle: { color: colors.text, fontFamily: fonts.bodyBold },
+  episodeDesc: { color: colors.muted, fontFamily: fonts.body, fontSize: 13, marginTop: 4 },
 });

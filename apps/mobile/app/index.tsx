@@ -5,7 +5,7 @@ import { ActivityIndicator, FlatList, Platform, Pressable, ScrollView, StyleShee
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { api } from '../src/api';
 import { FocusCard } from '../src/FocusCard';
-import { colors } from '../src/theme';
+import { colors, fonts } from '../src/theme';
 import { useAsync } from '../src/useAsync';
 
 function open(item: Content) {
@@ -27,9 +27,7 @@ export default function Home() {
         <Pressable onPress={() => open(hero)}>
           <Image source={hero.artwork.landscape} style={styles.hero} contentFit="cover" />
           <SafeAreaView edges={['top']} style={styles.brandBar}>
-            <Text style={styles.brand}>
-              COP<Text style={{ color: colors.accent }}>TV</Text>
-            </Text>
+            <Image source={require('../assets/logo-blanco.png')} style={styles.logo} contentFit="contain" accessibilityLabel="COPTV" />
           </SafeAreaView>
           <View style={styles.heroText}>
             <Text style={styles.heroTitle}>{hero.title}</Text>
@@ -85,18 +83,18 @@ const POSTER_W = tv ? 220 : 130;
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   loading: { flex: 1 },
-  message: { color: colors.muted, textAlign: 'center', marginTop: 120, fontSize: 18 },
+  message: { color: colors.muted, textAlign: 'center', marginTop: 120, fontSize: 18, fontFamily: fonts.body },
   hero: { width: '100%', aspectRatio: tv ? 21 / 9 : 4 / 5 },
   brandBar: { position: 'absolute', top: 0, left: 16 },
-  brand: { color: colors.text, fontSize: 28, fontWeight: '800', marginTop: 8 },
+  logo: { width: tv ? 220 : 140, aspectRatio: 910 / 292, marginTop: 8 },
   heroText: { position: 'absolute', bottom: 24, left: 16, right: 16 },
-  heroTitle: { color: colors.text, fontSize: 32, fontWeight: '700' },
-  heroDesc: { color: colors.muted, fontSize: 16, marginTop: 4 },
+  heroTitle: { color: colors.text, fontSize: tv ? 48 : 36, fontFamily: fonts.title, textTransform: 'uppercase' },
+  heroDesc: { color: colors.muted, fontFamily: fonts.body, fontSize: 16, marginTop: 4 },
   rail: { marginTop: 24, paddingVertical: tv ? 12 : 0 },
-  railTitle: { color: colors.text, fontSize: tv ? 28 : 18, fontWeight: '600', marginLeft: 16, marginBottom: 10 },
+  railTitle: { color: colors.text, fontSize: tv ? 30 : 20, fontFamily: fonts.subtitle, textTransform: 'uppercase', marginLeft: 16, marginBottom: 10 },
   card: { width: CARD_W, borderRadius: 10, overflow: 'hidden', backgroundColor: colors.surface },
   cardImage: { width: '100%', aspectRatio: 16 / 9 },
-  cardTitle: { color: colors.text, padding: 10, fontSize: tv ? 22 : 14 },
+  cardTitle: { color: colors.text, fontFamily: fonts.body, padding: 10, fontSize: tv ? 22 : 14 },
   posterCard: { width: POSTER_W, borderRadius: 10, overflow: 'hidden' },
   posterImage: { width: '100%', aspectRatio: 2 / 3 },
   live: {
@@ -105,7 +103,8 @@ const styles = StyleSheet.create({
     left: 8,
     backgroundColor: colors.live,
     color: colors.text,
-    fontWeight: '700',
+    fontFamily: fonts.title,
+    letterSpacing: 1,
     fontSize: 12,
     paddingHorizontal: 6,
     paddingVertical: 2,

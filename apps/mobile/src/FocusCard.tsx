@@ -25,7 +25,7 @@ export function FocusCard({ onPress, style, children, hasTVPreferredFocus }: Pro
 const styles = StyleSheet.create({
   focused: {
     transform: [{ scale: 1.08 }],
-    borderColor: colors.text,
+    borderColor: colors.focus,
     borderWidth: 3,
     zIndex: 1,
   },

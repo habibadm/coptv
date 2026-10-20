@@ -24,6 +24,11 @@ export function Home({ navigate }: { navigate: Navigate }) {
   return (
     <FocusContext.Provider value={focusKey}>
       <main className="home" ref={ref}>
+        <div className="dots" aria-hidden>
+          <i />
+          <i />
+          <i />
+        </div>
         {hero && (
           <header className="hero" style={{ backgroundImage: `url(${hero.artwork.landscape})` }}>
             <div className="hero-text">
