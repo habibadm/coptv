@@ -1,0 +1,14 @@
+{
+  "kind": "singleType",
+  "collectionName": "portadas",
+  "info": {
+    "singularName": "portada",
+    "pluralName": "portadas",
+    "displayName": "Portada",
+    "description": "Orden de los carriles de la pantalla de inicio"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "carriles": { "type": "component", "repeatable": true, "component": "portada.carril" }
+  }
+}

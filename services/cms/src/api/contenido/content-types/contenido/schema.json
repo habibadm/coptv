@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contenidos",
+  "info": {
+    "singularName": "contenido",
+    "pluralName": "contenidos",
+    "displayName": "Contenido",
+    "description": "Señales en vivo, programas, películas, episodios y clips"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "titulo": { "type": "string", "required": true },
+    "slug": { "type": "uid", "targetField": "titulo", "required": true },
+    "tipo": {
+      "type": "enumeration",
+      "enum": ["live", "movie", "series", "episode", "clip"],
+      "default": "movie",
+      "required": true
+    },
+    "descripcion": { "type": "text" },
+    "acceso": {
+      "type": "enumeration",
+      "enum": ["free", "registered", "premium"],
+      "default": "free",
+      "required": true
+    },
+    "generos": { "type": "string" },
+    "imagenHorizontal": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "imagenVertical": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "duracionSeg": { "type": "integer", "min": 0 },
+    "anio": { "type": "integer" },
+    "clasificacion": { "type": "string" },
+    "serie": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::contenido.contenido",
+      "inversedBy": "episodios"
+    },
+    "episodios": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contenido.contenido",
+      "mappedBy": "serie"
+    },
+    "temporada": { "type": "integer", "min": 1 },
+    "episodio": { "type": "integer", "min": 1 },
+    "bunnyVideoId": { "type": "string" },
+    "urlVivo": { "type": "string" }
+  }
+}

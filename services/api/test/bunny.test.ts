@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Playback } from '@coptv/shared';
 import { buildApp } from '../src/app';
 import { deliver, signUrl } from '../src/bunny';
+import { exampleSource } from '../src/catalog/example-data';
 import { loadConfig } from '../src/config';
 
 const env = { BUNNY_STREAM_HOST: 'vz-test.b-cdn.net', BUNNY_TOKEN_KEY: 'clave-secreta' };
@@ -27,7 +28,14 @@ describe('Bunny', () => {
   });
 
   it('entrega el VOD desde Bunny Stream, firmado', async () => {
-    const app = buildApp(loadConfig(env), { 'documental-raices': 'abc-123' });
+    const withVideo = async () => {
+      const catalog = await exampleSource();
+      return {
+        ...catalog,
+        items: catalog.items.map((i) => (i.content.id === 'documental-raices' ? { ...i, bunnyVideoId: 'abc-123' } : i)),
+      };
+    };
+    const app = buildApp(loadConfig(env), withVideo);
     const playback = (await app.inject('/v1/playback/documental-raices')).json<Playback>();
     expect(playback.url).toMatch(/^https:\/\/vz-test\.b-cdn\.net\/bcdn_token=[\w-]+&expires=\d+&token_path=%2Fabc-123%2F\/abc-123\/playlist\.m3u8$/);
   });

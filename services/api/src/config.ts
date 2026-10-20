@@ -9,6 +9,7 @@ export interface Config {
   adsEnabled: boolean;
   adTagUrl: string;
   bunny: BunnyConfig;
+  cms: { url: string; token: string; cacheTtlMs: number };
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -21,6 +22,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       streamHost: env.BUNNY_STREAM_HOST ?? '',
       tokenKey: env.BUNNY_TOKEN_KEY ?? '',
       tokenTtlSec: Number(env.BUNNY_TOKEN_TTL_SEC ?? 6 * 3600),
+    },
+    cms: {
+      url: (env.CMS_URL ?? '').replace(/\/$/, ''),
+      token: env.CMS_TOKEN ?? '',
+      cacheTtlMs: Number(env.CMS_CACHE_SEC ?? 60) * 1000,
     },
   };
 }
