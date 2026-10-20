@@ -1,0 +1,20 @@
+{
+  "name": "coptv",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "services/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "api": "npm run dev -w @coptv/api",
+    "tv": "npm run dev -w @coptv/tv-web",
+    "mobile": "npm run start -w @coptv/mobile",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
