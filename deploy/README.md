@@ -13,10 +13,10 @@ GitHub arma las imágenes Docker en cada cambio (`.github/workflows/imagenes.yml
 ## Antes de instalar
 
 1. **DNS:** dos registros A hacia la IP pública: `coptv.cop.org.py` y `panel.coptv.cop.org.py`.
-2. **Router:** reenviar los puertos 80 y 443 (TCP) de esa IP al Asustor.
-3. **Puertos libres en el Asustor:** ADM usa 8000/8001, pero si está instalado **Web Center** ocupa el 80 y el 443. Hay que detenerlo o cambiarle los puertos.
-4. **Docker:** en ADM, App Central > instalar **Docker Engine**.
-5. **SSH:** en ADM, Servicios > Terminal > activar SSH.
+2. **Router:** reenviar el puerto público 80 (TCP) al 8090 del Asustor y el 443 al 8453. Esos puertos internos se cambian en `.env` (`HTTP_PORT`, `HTTPS_PORT`); así no chocan con ADM ni con Web Center.
+   Los públicos tienen que seguir siendo 80 y 443: los usa Let's Encrypt para dar el certificado.
+3. **Docker:** en ADM, App Central > instalar **Docker Engine**.
+4. **SSH:** en ADM, Servicios > Terminal > activar SSH.
 
 ## Instalar
 
