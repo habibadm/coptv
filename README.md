@@ -7,7 +7,7 @@ El plan técnico completo está en el proyecto (`plan/plan-tecnico-app-coptv.md`
 
 | Carpeta | Qué es | Plataformas |
 |---|---|---|
-| `apps/mobile` | App React Native (Expo) | iOS, Android (después Apple TV y Android TV) |
+| `apps/mobile` | App React Native (Expo + react-native-tvos) | iOS, Android, Apple TV, Android TV / Google TV |
 | `apps/tv-web` | App web para control remoto (React + Vite) | Samsung Tizen, LG webOS, Xbox, PlayStation, navegador |
 | `services/api` | API de COPTV (Fastify): lee el CMS o un catálogo de ejemplo | Servidor |
 | `services/cms` | Panel de contenido (Strapi 5) | Servidor |
@@ -25,6 +25,8 @@ npm run tv       # App de TV en http://localhost:5173 (usar flechas, Enter y Esc
 npm run mobile   # App móvil con Expo (abrir en Expo Go o en un simulador)
 npm run cms      # Panel de contenido en http://localhost:1337/admin (antes: npm install --prefix services/cms)
 ```
+
+Para Apple TV y Android TV: `npm run ios:tv -w @coptv/mobile` o `npm run android:tv -w @coptv/mobile` (genera los proyectos nativos con `EXPO_TV=1`).
 
 En un teléfono físico, cambiar `extra.apiUrl` en `apps/mobile/app.json` por la IP de la computadora.
 
