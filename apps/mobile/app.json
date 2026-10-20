@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "COPTV",
+    "slug": "coptv",
+    "scheme": "coptv",
+    "version": "0.1.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0b0f1a",
+    "ios": {
+      "bundleIdentifier": "com.coptv.app",
+      "supportsTablet": true,
+      "infoPlist": { "UIBackgroundModes": ["audio"] }
+    },
+    "android": {
+      "package": "com.coptv.app"
+    },
+    "plugins": [
+      "expo-router",
+      ["expo-video", { "supportsBackgroundPlayback": true, "supportsPictureInPicture": true }]
+    ],
+    "extra": {
+      "apiUrl": "http://localhost:4000"
+    }
+  }
+}
