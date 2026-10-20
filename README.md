@@ -45,6 +45,12 @@ Verificaciones: `npm run typecheck`, `npm test`, `npm run build`.
 
 Configuración en `services/api/.env.example`.
 
+## Marca
+
+Los logos están en `brand/` (horizontal y símbolo, en color y en blanco), sacados del manual de marca de COPTV.
+Colores: azul `#4A76CB`, amarillo `#ECB536`, rojo `#D35237`, verde `#529E56`, gris `#E2E2E1`, negro y el rojo del logo `#E43034`.
+Tipografías: Barlow (textos) y Barlow Condensed (títulos). El amarillo marca lo que está seleccionado con el control remoto.
+
 ## Empaquetar para televisores
 
 - **Samsung Tizen:** `npm run build -w @coptv/tv-web`, copiar `apps/tv-web/dist/` junto a `apps/tv-web/platform/tizen/config.xml` y firmar con Tizen Studio.
@@ -54,4 +60,4 @@ Configuración en `services/api/.env.example`.
 
 1. Crear la librería de Bunny Stream y conectar la señal real de COPTV con `LIVE_STREAM_URL`.
 2. Instalar el subidor en el NAS (`services/nas-uploader/README.md`).
-3. Diseño final de marca y pantallas.
+3. Imágenes reales de cada programa en el panel de contenido.

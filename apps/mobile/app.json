@@ -6,7 +6,8 @@
     "version": "0.1.0",
     "orientation": "default",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#0b0f1a",
+    "backgroundColor": "#000000",
+    "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.coptv.app",
       "supportsTablet": true,
@@ -17,11 +18,28 @@
       }
     },
     "android": {
-      "package": "com.coptv.app"
+      "package": "com.coptv.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "plugins": [
-      "@react-native-tvos/config-tv",
+      [
+        "@react-native-tvos/config-tv",
+        {
+          "androidTVBanner": "./assets/tv-banner.png"
+        }
+      ],
       "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "imageWidth": 200,
+          "backgroundColor": "#000000"
+        }
+      ],
       [
         "expo-video",
         {

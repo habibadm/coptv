@@ -4,7 +4,7 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useState } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { api } from '../../src/api';
-import { colors } from '../../src/theme';
+import { colors, fonts } from '../../src/theme';
 import { useTVBack } from '../../src/useTVBack';
 
 const MESSAGES: Record<string, string> = {
@@ -54,14 +54,15 @@ export default function Player() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#000', justifyContent: 'center' },
-  message: { color: colors.muted, textAlign: 'center', fontSize: 18 },
+  message: { color: colors.muted, textAlign: 'center', fontSize: 18, fontFamily: fonts.body },
   live: {
     position: 'absolute',
     top: 56,
     left: 16,
     backgroundColor: colors.live,
     color: colors.text,
-    fontWeight: '700',
+    fontFamily: fonts.title,
+    letterSpacing: 1,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 4,
