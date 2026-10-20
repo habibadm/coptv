@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_portada_carriles",
+  "info": {
+    "displayName": "Carril",
+    "description": "Fila horizontal de la portada"
+  },
+  "attributes": {
+    "titulo": { "type": "string", "required": true },
+    "estilo": {
+      "type": "enumeration",
+      "enum": ["hero", "landscape", "poster", "live"],
+      "default": "landscape",
+      "required": true
+    },
+    "contenidos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contenido.contenido"
+    }
+  }
+}

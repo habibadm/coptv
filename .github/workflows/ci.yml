@@ -18,3 +18,18 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  cms:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/cms
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: services/cms/package-lock.json
+      - run: npm ci
+      - run: npx tsc -p . --noEmit

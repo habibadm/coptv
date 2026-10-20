@@ -1,13 +1,14 @@
 import type { Content, EpgEntry } from '@coptv/shared';
+import type { Catalog } from './types';
 
-// Catálogo de ejemplo. Se reemplaza por el CMS (Strapi o Sanity) en el siguiente paso.
+// Catálogo de ejemplo, usado cuando no hay CMS configurado (CMS_URL vacío).
 
 const art = (seed: string) => ({
   landscape: `https://picsum.photos/seed/coptv-${seed}/1280/720`,
   poster: `https://picsum.photos/seed/coptv-${seed}/480/720`,
 });
 
-export const catalog: Content[] = [
+const catalog: Content[] = [
   {
     id: 'coptv-en-vivo',
     kind: 'live',
@@ -87,13 +88,7 @@ export const catalog: Content[] = [
   },
 ];
 
-/**
- * Video de Bunny Stream (GUID) de cada contenido bajo demanda. Lo que no está aquí usa la señal de prueba.
- * Se reemplaza por un campo del CMS.
- */
-export const videoSources: Record<string, string> = {};
-
-export const homeLayout = [
+const homeLayout = [
   { id: 'destacado', title: 'Destacado', style: 'hero' as const, ids: ['coptv-en-vivo', 'documental-raices'] },
   { id: 'en-vivo', title: 'En vivo', style: 'live' as const, ids: ['coptv-en-vivo'] },
   { id: 'programas', title: 'Programas', style: 'poster' as const, ids: ['noticiero-central', 'deportes-semana'] },
@@ -104,6 +99,11 @@ export const homeLayout = [
     ids: ['noticiero-central-e3', 'deportes-semana-e1', 'especial-aniversario', 'documental-raices'],
   },
 ];
+
+export const exampleSource = async (): Promise<Catalog> => ({
+  items: catalog.map((content) => ({ content })),
+  home: homeLayout,
+});
 
 /** Guía de programación de ejemplo: bloques de una hora a partir de la hora actual. */
 export function buildEpg(now = new Date()): EpgEntry[] {

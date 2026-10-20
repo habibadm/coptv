@@ -9,7 +9,8 @@ El plan técnico completo está en el proyecto (`plan/plan-tecnico-app-coptv.md`
 |---|---|---|
 | `apps/mobile` | App React Native (Expo) | iOS, Android (después Apple TV y Android TV) |
 | `apps/tv-web` | App web para control remoto (React + Vite) | Samsung Tizen, LG webOS, Xbox, PlayStation, navegador |
-| `services/api` | API de COPTV (Fastify) con catálogo de ejemplo | Servidor |
+| `services/api` | API de COPTV (Fastify): lee el CMS o un catálogo de ejemplo | Servidor |
+| `services/cms` | Panel de contenido (Strapi 5) | Servidor |
 | `packages/shared` | Tipos, cliente de la API y reglas de acceso comunes | Todas |
 
 ## Cómo correrlo
@@ -21,6 +22,7 @@ npm install
 npm run api      # API en http://localhost:4000
 npm run tv       # App de TV en http://localhost:5173 (usar flechas, Enter y Escape)
 npm run mobile   # App móvil con Expo (abrir en Expo Go o en un simulador)
+npm run cms      # Panel de contenido en http://localhost:1337/admin (antes: npm install --prefix services/cms)
 ```
 
 En un teléfono físico, cambiar `extra.apiUrl` en `apps/mobile/app.json` por la IP de la computadora.
@@ -48,5 +50,5 @@ Configuración en `services/api/.env.example`.
 ## Próximos pasos
 
 1. Crear la librería de Bunny Stream y conectar la señal real de COPTV con `LIVE_STREAM_URL`.
-2. Reemplazar el catálogo de ejemplo por el CMS.
+2. Subir automáticamente los videos del NAS a Bunny Stream.
 3. Diseño final de marca y pantallas.
