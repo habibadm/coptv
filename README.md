@@ -32,6 +32,14 @@ Verificaciones: `npm run typecheck`, `npm test`, `npm run build`.
 - Cada contenido tiene un nivel de acceso (`free`, `registered`, `premium`). Hoy todo es `free`; la regla está en `packages/shared/src/entitlements.ts`.
 - La API devuelve pausas publicitarias solo si `ADS_ENABLED=true` (ver `services/api/.env.example`).
 
+## Video con Bunny.net
+
+- **Bajo demanda:** los videos se suben a una librería de Bunny Stream y se reproducen como `https://<pull-zone>/<videoId>/playlist.m3u8`.
+- **En vivo:** la señal sale por la CDN de Bunny (Bunny Live está en vista previa cerrada; también sirve cualquier origen HLS detrás de una Pull Zone).
+- **Protección:** con `BUNNY_TOKEN_KEY` la API entrega URLs firmadas que vencen, válidas para el manifiesto y sus segmentos.
+
+Configuración en `services/api/.env.example`.
+
 ## Empaquetar para televisores
 
 - **Samsung Tizen:** `npm run build -w @coptv/tv-web`, copiar `apps/tv-web/dist/` junto a `apps/tv-web/platform/tizen/config.xml` y firmar con Tizen Studio.
@@ -39,6 +47,6 @@ Verificaciones: `npm run typecheck`, `npm test`, `npm run build`.
 
 ## Próximos pasos
 
-1. Conectar la señal real de COPTV (Mux) con `LIVE_STREAM_URL`.
+1. Crear la librería de Bunny Stream y conectar la señal real de COPTV con `LIVE_STREAM_URL`.
 2. Reemplazar el catálogo de ejemplo por el CMS.
 3. Diseño final de marca y pantallas.
